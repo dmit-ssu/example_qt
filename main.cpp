@@ -1,10 +1,14 @@
-#include <iostream>
+#include <QtGui>
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    cout << "Hello, World!\n";
+    QApplication app(argc,argv);
 
-    return 0;
+    QWidget *widget = new QWidget;
+
+    widget->show();
+
+    return app.exec();
 }
