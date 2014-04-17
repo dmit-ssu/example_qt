@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = unittest
-SOURCES += main.cpp
+SOURCES += main.cpp myclass.cpp
+HEADERS += myclass.h
 
 QT      += testlib
 QT      -= gui
