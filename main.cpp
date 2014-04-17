@@ -1,10 +1,20 @@
-#include <iostream>
+#include <QtTest>
 
-using namespace std;
-
-int main(int argc, char *argv[])
+class UnittestTest: public QObject
 {
-    cout << "Hello, World!\n";
+    Q_OBJECT
 
-    return 0;
+public:
+    UnittestTest() {}
+
+private Q_SLOTS:
+    void testCase1();
+};
+
+void UnittestTest::testCase1()
+{
 }
+
+QTEST_APPLESS_MAIN(UnittestTest)
+
+#include "main.moc"
