@@ -25,7 +25,6 @@ int main(int argc, char *argv[])
     widget->setLayout(buttonLayout);
     widget->setWindowFlags(Qt::Window);
     widget->show();
-    widget->show();
 
     return app.exec();
 }
