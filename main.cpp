@@ -1,19 +1,38 @@
-#include <QtGlobal>
-#if QT_VERSION < 0x050000
-#include <QtGui>
-#else
-#include <QtWidgets>
-#endif
+#include <iostream>
+#include <QCoreApplication>
+#include <QTimer>
 
 using namespace std;
 
+class Task: public QObject
+{
+    Q_OBJECT
+public:
+    Task(QObject *parent = 0) : QObject(parent) {}
+
+public slots:
+    void run()
+    {
+        cout << "Hello, World!\n";
+
+        emit finished();
+    }
+
+signals:
+    void finished();
+};
+
+#include "main.moc"
+
 int main(int argc, char *argv[])
 {
-    QApplication app(argc,argv);
+    QCoreApplication app(argc, argv);
 
-    QWidget *widget = new QWidget;
+    Task *task = new Task(&app);
 
-    widget->show();
+    QObject::connect(task, SIGNAL(finished()), &app, SLOT(quit()));
+
+    QTimer::singleShot(500, task, SLOT(run()));
 
     return app.exec();
 }
