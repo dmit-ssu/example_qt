@@ -1,19 +1,31 @@
-#include <QtGlobal>
-#if QT_VERSION < 0x050000
-#include <QtGui>
-#else
-#include <QtWidgets>
-#endif
+#include <QCoreApplication>
+#include <QDebug>
 
-using namespace std;
+#include <QSerialPort>
+#include <QSerialPortInfo>
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc,argv);
+    QCoreApplication app(argc, argv);
 
-    QWidget *widget = new QWidget;
+    qDebug() << "QSerialPortInfo::availablePorts() size is" << QSerialPortInfo::availablePorts().size();
 
-    widget->show();
+    for (const QSerialPortInfo &info: QSerialPortInfo::availablePorts()) {
+        qDebug() << "Name : " << info.portName();
+        qDebug() << "Description : " << info.description();
+        qDebug() << "Manufacturer : " << info.manufacturer();
+
+        QSerialPort serial;
+        serial.setPort(info);
+
+        if (serial.open(QIODevice::ReadWrite)) {
+            qDebug() << "Try to open: ok";
+            serial.close();
+            qDebug() << "Closed";
+        } else {
+            qDebug() << "Try to open: failed";
+        }
+    }
 
     return app.exec();
 }
