@@ -8,8 +8,14 @@ endif(NOT DEFINED USE_QT)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-add_executable (task main.cpp mainwindow.cpp)
-set(HEADERS common.h mainwindow.h)
+set(PROJECT_SOURCES
+    main.cpp
+    mainwindow.cpp
+    mainwindow.h
+    common.h
+)
+
+add_executable (task ${PROJECT_SOURCES})
 
 if(${USE_QT} GREATER 4)
     find_package(Qt5Widgets REQUIRED)
