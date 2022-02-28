@@ -6,6 +6,7 @@ if(NOT DEFINED USE_QT)
 endif(NOT DEFINED USE_QT)
 
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(PROJECT_SOURCES
@@ -13,6 +14,7 @@ set(PROJECT_SOURCES
     mainwindow.cpp
     mainwindow.h
     common.h
+    widget.ui
 )
 
 add_executable (task ${PROJECT_SOURCES})

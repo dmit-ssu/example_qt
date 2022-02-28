@@ -2,25 +2,30 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPushButton>
+
+namespace Ui {
+class Widget;
+}
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
     
-signals:
-    
-public slots:
-    void newFile();
-    void openFile();
-    
-private:
-    void createMenu();
+    virtual void resizeEvent(QResizeEvent *event) override;
 
-    QAction *newAct;
-    QAction *openAct;
-    QMenu *fileMenu;
+private:
+    void updateButtonsPosition();
+
+    Ui::Widget *ui;
+
+    QPushButton* m_topLeftButton;
+    QPushButton* m_topRightButton;
+    QPushButton* m_bottomLeftButton;
+    QPushButton* m_bottomRightButton;
 };
 
 #endif // MAINWINDOW_H

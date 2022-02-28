@@ -1,35 +1,52 @@
 #include "common.h"
 #include "mainwindow.h"
+#include "ui_widget.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+    QMainWindow(parent),
+    ui(new Ui::Widget)
 {
-    createMenu();
+    ui->setupUi(this);
+    setCentralWidget(ui->graphicsView);
+
+    m_topLeftButton = new QPushButton("Top Left", ui->graphicsView);
+    m_topRightButton = new QPushButton("Top Right", ui->graphicsView);
+    m_bottomLeftButton = new QPushButton("Bottom Left", ui->graphicsView);
+    m_bottomRightButton = new QPushButton("Bottom Right", ui->graphicsView);
+
+    updateButtonsPosition();
 }
 
-void MainWindow::createMenu()
+MainWindow::~MainWindow()
 {
-    newAct = new QAction(tr("&New"), this);
-    newAct->setShortcuts(QKeySequence::New);
-    newAct->setStatusTip(tr("Create a new file"));
-    connect(newAct, SIGNAL(triggered()), this, SLOT(newFile()));
-
-    openAct = new QAction(tr("&Open..."), this);
-    openAct->setShortcuts(QKeySequence::Open);
-    openAct->setStatusTip(tr("Open an existing file"));
-    connect(openAct, SIGNAL(triggered()), this, SLOT(openFile()));
-
-    fileMenu = menuBar()->addMenu(tr("&File"));
-    fileMenu->addAction(newAct);
-    fileMenu->addAction(openAct);
+    delete ui;
 }
 
-void MainWindow::newFile()
+void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    qDebug() << "newFile();";
+    Q_UNUSED(event);
+
+    qDebug() << "MainWindow::resizeEvent";
+    updateButtonsPosition();
 }
 
-void MainWindow::openFile()
+void MainWindow::updateButtonsPosition()
 {
-    qDebug() << "openFile();";
+    QRect graphicsViewGeometry = ui->graphicsView->geometry();
+    m_topLeftButton->setGeometry({25,
+                                  25,
+                                  m_topLeftButton->geometry().width(),
+                                  m_topLeftButton->geometry().height()});
+    m_topRightButton->setGeometry({graphicsViewGeometry.width() - m_topRightButton->geometry().width() - 25,
+                                   25,
+                                   m_topRightButton->geometry().width(),
+                                   m_topRightButton->geometry().height()});
+    m_bottomLeftButton->setGeometry({25,
+                                     graphicsViewGeometry.height() - m_bottomLeftButton->geometry().height() - 25,
+                                     m_bottomLeftButton->geometry().width(),
+                                     m_bottomLeftButton->geometry().height()});
+    m_bottomRightButton->setGeometry({graphicsViewGeometry.width() - m_bottomRightButton->geometry().width() - 25,
+                                      graphicsViewGeometry.height() - m_bottomRightButton->geometry().height() - 25,
+                                      m_bottomRightButton->geometry().width(),
+                                      m_bottomRightButton->geometry().height()});
 }
